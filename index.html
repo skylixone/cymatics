@@ -55,6 +55,7 @@
   <div class="sec">
     <button class="btn" id="playpause">&#10074;&#10074;&nbsp; pause</button>
     <button class="btn" id="savepng">&#8681;&nbsp; save png</button>
+    <button class="btn" id="exportpresets">&#8801;&nbsp; export presets</button>
     <div class="note">Audio-reactive drive (mic / file) planned for the next iteration &mdash; the wave field API already accepts external excitation.</div>
   </div>
 </div>
@@ -482,8 +483,14 @@ function deepEqual(a, b){
   return false;
 }
 
-/* Export all presets as presets.json only if they differ from GitHub's copy. */
+let activePreset = "filament";
+
+/* Export all presets as presets.json only if they differ from GitHub's copy.
+   The current UI state is written back into the active preset first. */
 async function exportPresets(){
+  const s = JSON.parse(JSON.stringify(state));
+  delete s.playing;
+  PRESETS[activePreset] = s;
   let changed = true;
   try {
     const r = await fetch("https://raw.githubusercontent.com/skylixone/cymatics/main/presets.json", { cache: "no-store" });
@@ -493,7 +500,10 @@ async function exportPresets(){
   const blob = new Blob([JSON.stringify(PRESETS, null, 2)], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
-  a.href = url; a.download = "presets.json"; a.click();
+  a.href = url; a.download = "presets.json";
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
   URL.revokeObjectURL(url);
   console.log("presets.json exported. Commit and push it to update defaults.");
 }
@@ -501,6 +511,7 @@ async function exportPresets(){
 /* ---------------- UI wiring ---------------- */
 const SLIDERS = ["freq","gamma","amp","hscale","speed","disp","web","expo","glow","lint","dropMix","dropScale"];
 const $ = id => document.getElementById(id);
+const qs = new URLSearchParams(location.search);
 
 function syncUI(){
   for (const k of SLIDERS){ $(k).value = state[k]; $(k + "-v").textContent = fmt(k, state[k]); }
@@ -529,6 +540,7 @@ function applyPreset(name){
   const p = PRESETS[name];
   Object.assign(state, JSON.parse(JSON.stringify(p)));
   state.playing = state.playing; // keep
+  activePreset = name;
   document.querySelectorAll(".preset").forEach(b =>
     b.classList.toggle("active", b.dataset.p === name));
   syncUI();
@@ -548,14 +560,14 @@ $("savepng").addEventListener("click", () => {
   });
 });
 $("tab").addEventListener("click", () => $("panel").classList.toggle("hidden"));
+$("exportpresets").addEventListener("click", exportPresets);
 
 /* URL params for reproducible stills: ?preset=honeycomb&freeze=2.5 */
 let FREEZE = null;
 (async function boot(){
   await loadPresets();
-  const qs = new URLSearchParams(location.search);
   if (qs.get("preset") && PRESETS[qs.get("preset")]) applyPreset(qs.get("preset"));
-  else applyPreset("honeycomb");
+  else applyPreset("filament");
   /* tuning overrides: ?freq=420&web=1.2&lsharp=120... */
   for (const k of ["freq","gamma","amp","hscale","speed","disp","web","expo","glow","lint","lsharp","lhalo","dropMix","dropScale","dropDome","specK"])
     if (qs.has(k)) state[k] = parseFloat(qs.get(k));

@@ -5,14 +5,28 @@
     "amp": 1.25,
     "hscale": 0.62,
     "speed": 0.25,
-    "disp": 0.014,
-    "web": 0.4,
+    "disp": 0.044,
+    "web": 1.04,
     "expo": 1.65,
     "glow": 0.45,
     "lint": 1.6,
     "orbit": false,
-    "lsharp": 120,
-    "lhalo": 0.08,
+    "lightCol": [
+      "#ffc258",
+      "#c2320e",
+      "#3a1408"
+    ],
+    "envA": [
+      0,
+      0,
+      0
+    ],
+    "envB": [
+      0,
+      0,
+      0
+    ],
+    "envK": 0,
     "lightPos": [
       [
         0.12,
@@ -30,29 +44,15 @@
         -1.1
       ]
     ],
-    "lightCol": [
-      "#ffc258",
-      "#c2320e",
-      "#3a1408"
-    ],
+    "lsharp": 120,
+    "lhalo": 0.08,
     "webCol": [
       1,
       0.8,
       0.5
     ],
-    "envA": [
-      0,
-      0,
-      0
-    ],
-    "envB": [
-      0,
-      0,
-      0
-    ],
-    "envK": 0,
-    "dropMix": 1,
-    "dropScale": 11,
+    "dropMix": 0,
+    "dropScale": 4,
     "dropDome": 2.6,
     "specK": 0.7
   },
@@ -174,17 +174,30 @@
     "freq": 260,
     "gamma": 40,
     "amp": 0.9,
-    "hscale": 0.7,
+    "hscale": 1.14,
     "speed": 0.3,
-    "disp": 0.006,
+    "disp": 0.038,
     "web": 3,
-    "expo": 2,
-    "glow": 0.25,
+    "expo": 1.08,
+    "glow": 1.21,
     "lint": 0.2,
-    "orbit": false,
-    "lsharp": 120,
-    "lhalo": 0.1,
-    "specK": 0.3,
+    "orbit": true,
+    "lightCol": [
+      "#9fc4ff",
+      "#fa3500",
+      "#201409"
+    ],
+    "envA": [
+      0,
+      0,
+      0
+    ],
+    "envB": [
+      0,
+      0,
+      0
+    ],
+    "envK": 0,
     "lightPos": [
       [
         0.1,
@@ -202,29 +215,16 @@
         -1.4
       ]
     ],
-    "lightCol": [
-      "#9fc4ff",
-      "#181c26",
-      "#201409"
-    ],
+    "lsharp": 120,
+    "lhalo": 0.1,
     "webCol": [
       0.92,
       0.96,
       1
     ],
-    "envA": [
-      0,
-      0,
-      0
-    ],
-    "envB": [
-      0,
-      0,
-      0
-    ],
-    "envK": 0,
     "dropMix": 0,
     "dropScale": 14,
-    "dropDome": 2.2
+    "dropDome": 2.2,
+    "specK": 0.3
   }
 }
